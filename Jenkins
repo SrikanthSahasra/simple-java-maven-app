@@ -1,0 +1,55 @@
+pipeline {
+    agent any  // This tells Jenkins to run the pipeline on any available agent
+
+    environment {
+        // Optionally, you can define environment variables here
+        MAVEN_HOME = tool name: 'Maven 3', type: 'Tool'  // Specify your Maven version if you have multiple versions installed in Jenkins
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the repository
+                git 'https://github.com/SrikanthSahasra/simple-java-maven-app.git'  // Replace with your Git repository URL
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Run Maven build
+                sh "'${MAVEN_HOME}/bin/mvn' clean install -DskipTests"  // Clean the project and install the dependencies without running tests
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run Maven test
+                sh "'${MAVEN_HOME}/bin/mvn' test"  // Run tests
+            }
+        }
+
+        stage('Package') {
+            steps {
+                // Run Maven package
+                sh "'${MAVEN_HOME}/bin/mvn' package"  // Package the application into a distributable format (JAR/WAR)
+            }
+        }
+    }
+
+    post {
+        success {
+            // Actions to take on success (e.g., notify or archive build artifacts)
+            echo 'Build, test, and package completed successfully.'
+        }
+
+        failure {
+            // Actions to take on failure (e.g., notify failure)
+            echo 'Pipeline failed!'
+        }
+
+        always {
+            // Actions that should always happen regardless of success or failure
+            cleanWs()  // Clean workspace
+        }
+    }
+}
