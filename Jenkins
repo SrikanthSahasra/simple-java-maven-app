@@ -11,10 +11,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Run Maven build
-                sh "'${MAVEN_HOME}/bin/mvn' clean install -DskipTests"  // Clean the project and install the dependencies without running tests
+                bat 'mvn clean install'
             }
         }
+
 
         stage('Test') {
             steps {
