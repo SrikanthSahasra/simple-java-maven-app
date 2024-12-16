@@ -1,6 +1,8 @@
 pipeline {
-    agent any  // This tells Jenkins to run the pipeline on any available agent
-
+    agent any
+    tools {
+        maven 'Maven 3' // This is the name you provided in Global Tool Configuration
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,14 +10,11 @@ pipeline {
                 git 'https://github.com/SrikanthSahasra/simple-java-maven-app.git'  // Replace with your Git repository URL
             }
         }
-
         stage('Build') {
             steps {
                 bat 'mvn clean install'
             }
         }
-
-
         stage('Test') {
             steps {
                 // Run Maven test
