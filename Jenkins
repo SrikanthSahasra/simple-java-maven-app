@@ -1,9 +1,6 @@
 pipeline {
     agent any  // This tells Jenkins to run the pipeline on any available agent
 
-    environment {
-        // Optionally, you can define environment variables here
-        MAVEN_HOME = tool name: 'Maven 3', type: 'Tool'  // Specify your Maven version if you have multiple versions installed in Jenkins
     }
 
     stages {
